@@ -17,10 +17,10 @@ export interface Product {
   duration: string;
   tone: Tone;
   unlocked: boolean;
-  price?: string;
-  offer?: string;
-  checkoutUrl?: string;
-  offerProductId?: string;
+  price?: string | undefined;
+  offer?: string | undefined;
+  checkoutUrl?: string | undefined;
+  offerProductId?: string | undefined;
 }
 
 const SLUG_IMAGES: Record<string, string> = {

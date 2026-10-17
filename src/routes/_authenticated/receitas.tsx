@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { ProductCard } from "@/components/ProductCard";
-import { PRODUCTS, hasAccess } from "@/lib/content";
+import { useCatalog } from "@/lib/data";
 import recipe from "@/assets/recipe.jpg";
 
 export const Route = createFileRoute("/_authenticated/receitas")({
@@ -21,7 +21,8 @@ export const Route = createFileRoute("/_authenticated/receitas")({
 const NAMES = ["Panqueca de whey", "Bowl de frango", "Omelete de forno", "Mousse proteico", "Wrap de atum", "Overnight oats", "Crepioca fit", "Salada de grão-de-bico"];
 
 function Page() {
-  const unlocked = hasAccess("receitas-proteicas");
+  const { data: PRODUCTS = [] } = useCatalog();
+  const unlocked = !!PRODUCTS.find((p) => p.id === "receitas-proteicas")?.unlocked;
   return (
     <AppShell title="Receitas" subtitle="51 receitas proteicas">
       <div className="flex gap-4 overflow-x-auto pb-2">

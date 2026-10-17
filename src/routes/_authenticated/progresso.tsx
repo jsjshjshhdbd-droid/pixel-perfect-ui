@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
-import { PRODUCTS, USER, hasAccess } from "@/lib/content";
+import { useCatalog, useProgress } from "@/lib/data";
+import { useStats } from "@/lib/stats";
 
 export const Route = createFileRoute("/_authenticated/progresso")({
   head: () => ({
@@ -19,6 +20,10 @@ export const Route = createFileRoute("/_authenticated/progresso")({
 const POINTS = [300, 280, 340, 400, 320, 290, 360, 410];
 
 function Page() {
+  const { data: PRODUCTS = [] } = useCatalog();
+  const { data: progress = [] } = useProgress();
+  const USER = useStats(progress);
+  const hasAccess = (id: string) => !!PRODUCTS.find((p) => p.id === id)?.unlocked;
   const max = 450;
   const d = POINTS.map((v, i) => `${i === 0 ? "M" : "L"} ${(i / (POINTS.length - 1)) * 100} ${100 - (v / max) * 100}`).join(" ");
   return (
