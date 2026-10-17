@@ -9,6 +9,9 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedFavoritosRouteImport } from './routes/_authenticated/favoritos'
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
@@ -17,52 +20,70 @@ import { Route as AuthenticatedReceitasRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedTreinosRouteImport } from './routes/_authenticated/treinos'
 import { Route as AuthenticatedConteudoIdRouteImport } from './routes/_authenticated/conteudo.$id'
 
-const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
-  id: '/_authenticated/',
-  path: '/',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedFavoritosRoute = AuthenticatedFavoritosRouteImport.update({
-  id: '/_authenticated/favoritos',
+  id: '/favoritos',
   path: '/favoritos',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
-  id: '/_authenticated/perfil',
+  id: '/perfil',
   path: '/perfil',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedProgressoRoute = AuthenticatedProgressoRouteImport.update({
-  id: '/_authenticated/progresso',
+  id: '/progresso',
   path: '/progresso',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedReceitasRoute = AuthenticatedReceitasRouteImport.update({
-  id: '/_authenticated/receitas',
+  id: '/receitas',
   path: '/receitas',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedTreinosRoute = AuthenticatedTreinosRouteImport.update({
-  id: '/_authenticated/treinos',
+  id: '/treinos',
   path: '/treinos',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedConteudoIdRoute = AuthenticatedConteudoIdRouteImport.update({
-  id: '/_authenticated/conteudo/$id',
+  id: '/conteudo/$id',
   path: '/conteudo/$id',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof AuthenticatedIndexRoute
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/progresso': typeof AuthenticatedProgressoRoute
   '/receitas': typeof AuthenticatedReceitasRoute
   '/treinos': typeof AuthenticatedTreinosRoute
-  '/': typeof AuthenticatedIndexRoute
   '/conteudo/$id': typeof AuthenticatedConteudoIdRoute
 }
 export interface FileRoutesByTo {
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/progresso': typeof AuthenticatedProgressoRoute
@@ -73,6 +94,9 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/favoritos': typeof AuthenticatedFavoritosRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
   '/_authenticated/progresso': typeof AuthenticatedProgressoRoute
@@ -84,15 +108,19 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
+    | '/auth'
+    | '/reset-password'
     | '/favoritos'
     | '/perfil'
     | '/progresso'
     | '/receitas'
     | '/treinos'
-    | '/'
     | '/conteudo/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/auth'
+    | '/reset-password'
     | '/favoritos'
     | '/perfil'
     | '/progresso'
@@ -102,6 +130,9 @@ export interface FileRouteTypes {
     | '/conteudo/$id'
   id:
     | '__root__'
+    | '/_authenticated'
+    | '/auth'
+    | '/reset-password'
     | '/_authenticated/favoritos'
     | '/_authenticated/perfil'
     | '/_authenticated/progresso'
@@ -112,6 +143,87 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+}
+
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/': {
+      id: '/_authenticated/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/favoritos': {
+      id: '/_authenticated/favoritos'
+      path: '/favoritos'
+      fullPath: '/favoritos'
+      preLoaderRoute: typeof AuthenticatedFavoritosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/perfil': {
+      id: '/_authenticated/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof AuthenticatedPerfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/progresso': {
+      id: '/_authenticated/progresso'
+      path: '/progresso'
+      fullPath: '/progresso'
+      preLoaderRoute: typeof AuthenticatedProgressoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/receitas': {
+      id: '/_authenticated/receitas'
+      path: '/receitas'
+      fullPath: '/receitas'
+      preLoaderRoute: typeof AuthenticatedReceitasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/treinos': {
+      id: '/_authenticated/treinos'
+      path: '/treinos'
+      fullPath: '/treinos'
+      preLoaderRoute: typeof AuthenticatedTreinosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/conteudo/$id': {
+      id: '/_authenticated/conteudo/$id'
+      path: '/conteudo/$id'
+      fullPath: '/conteudo/$id'
+      preLoaderRoute: typeof AuthenticatedConteudoIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+  }
+}
+
+interface AuthenticatedRouteRouteChildren {
   AuthenticatedFavoritosRoute: typeof AuthenticatedFavoritosRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
   AuthenticatedProgressoRoute: typeof AuthenticatedProgressoRoute
@@ -121,61 +233,7 @@ export interface RootRouteChildren {
   AuthenticatedConteudoIdRoute: typeof AuthenticatedConteudoIdRoute
 }
 
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/_authenticated/': {
-      id: '/_authenticated/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/favoritos': {
-      id: '/_authenticated/favoritos'
-      path: '/favoritos'
-      fullPath: '/favoritos'
-      preLoaderRoute: typeof AuthenticatedFavoritosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/perfil': {
-      id: '/_authenticated/perfil'
-      path: '/perfil'
-      fullPath: '/perfil'
-      preLoaderRoute: typeof AuthenticatedPerfilRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/progresso': {
-      id: '/_authenticated/progresso'
-      path: '/progresso'
-      fullPath: '/progresso'
-      preLoaderRoute: typeof AuthenticatedProgressoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/receitas': {
-      id: '/_authenticated/receitas'
-      path: '/receitas'
-      fullPath: '/receitas'
-      preLoaderRoute: typeof AuthenticatedReceitasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/treinos': {
-      id: '/_authenticated/treinos'
-      path: '/treinos'
-      fullPath: '/treinos'
-      preLoaderRoute: typeof AuthenticatedTreinosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/conteudo/$id': {
-      id: '/_authenticated/conteudo/$id'
-      path: '/conteudo/$id'
-      fullPath: '/conteudo/$id'
-      preLoaderRoute: typeof AuthenticatedConteudoIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-  }
-}
-
-const rootRouteChildren: RootRouteChildren = {
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedFavoritosRoute: AuthenticatedFavoritosRoute,
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
   AuthenticatedProgressoRoute: AuthenticatedProgressoRoute,
@@ -183,6 +241,15 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedTreinosRoute: AuthenticatedTreinosRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedConteudoIdRoute: AuthenticatedConteudoIdRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+const rootRouteChildren: RootRouteChildren = {
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
