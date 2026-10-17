@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { ProductCard } from "@/components/ProductCard";
-import { PRODUCTS, hasAccess } from "@/lib/content";
+import { useCatalog } from "@/lib/data";
 
 export const Route = createFileRoute("/_authenticated/treinos")({
   head: () => ({
@@ -22,6 +22,8 @@ const FILTERS = [["todos", "Todos"], ["liberados", "Liberados"], ["treino", "Tre
 
 function Page() {
   const [f, setF] = useState<string>("todos");
+  const { data: PRODUCTS = [], isLoading } = useCatalog();
+  const hasAccess = (id: string) => !!PRODUCTS.find((p) => p.id === id)?.unlocked;
   const list = PRODUCTS.filter((p) =>
     f === "todos" ? true : f === "liberados" ? hasAccess(p.id) : f === "premium" ? !hasAccess(p.id) : p.kind === f);
   return (
@@ -36,6 +38,8 @@ function Page() {
       </div>
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {list.map((p) => <ProductCard key={p.id} product={p} />)}
+        {!isLoading && list.length === 0 && <p className="text-sm text-muted-foreground">Nenhum conteúdo nesta categoria.</p>}
+        {isLoading && <p className="text-sm text-muted-foreground">Carregando…</p>}
       </div>
     </AppShell>
   );

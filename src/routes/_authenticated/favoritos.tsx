@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Heart } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { ProductCard } from "@/components/ProductCard";
-import { PRODUCTS } from "@/lib/content";
+import { useCatalog } from "@/lib/data";
 import { useFavorites } from "@/lib/favorites";
 
 export const Route = createFileRoute("/_authenticated/favoritos")({
@@ -21,7 +21,8 @@ export const Route = createFileRoute("/_authenticated/favoritos")({
 
 function Page() {
   const { favs } = useFavorites();
-  const list = PRODUCTS.filter((p) => favs.includes(p.id));
+  const { data: PRODUCTS = [] } = useCatalog();
+  const list = PRODUCTS.filter((p) => favs.includes(p.uuid));
   return (
     <AppShell title="Favoritos" subtitle="Seus conteúdos salvos">
       {list.length === 0 ? (

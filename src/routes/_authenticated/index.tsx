@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Flame, Timer, Zap } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { ProductCard } from "@/components/ProductCard";
-import { PRODUCTS, USER, hasAccess } from "@/lib/content";
+import { useCatalog, useMe, useProgress } from "@/lib/data";
+import { useStats } from "@/lib/stats";
 import heroGym from "@/assets/hero-gym.jpg";
 import athlete from "@/assets/athlete.png";
 
@@ -27,9 +28,15 @@ const QUICK = [
   { title: "Protocolo Posterior", text: "Posterior forte e firme.", to: "protocolo-posterior", cls: "bg-gradient-periwinkle" },
 ];
 
-const WEEK = [40, 70, 15, 55, 80, 30, 60];
 
 function Index() {
+  const { data: PRODUCTS = [] } = useCatalog();
+  const { data: me } = useMe();
+  const { data: progress = [] } = useProgress();
+  const USER = { name: me?.profile?.full_name?.split(" ")[0] || "", weight: me?.profile?.weight_kg ?? "—", height: me?.profile?.height_cm ?? "—", ...useStats(progress) };
+  const WEEK = USER.week;
+  const hasAccess = (id: string) => !!PRODUCTS.find((p) => p.id === id)?.unlocked;
+  const today = (new Date().getDay() + 6) % 7;
   return (
     <AppShell title={`Olá, ${USER.name}! 👋`} subtitle="Bem-vinda à Bumbum Net. Seu melhor shape começa hoje.">
       <div className="grid gap-6 xl:grid-cols-[1fr_300px]">
@@ -40,7 +47,7 @@ function Index() {
             <div className="absolute inset-0 flex flex-col justify-center p-6 text-ink-foreground md:p-10">
               <span className="text-xs font-semibold tracking-widest">TREINO DO DIA</span>
               <h2 className="mt-2 max-w-md text-3xl font-bold md:text-4xl">Mais forte a cada dia.</h2>
-              <p className="mt-2 max-w-sm text-sm opacity-90">Protocolo Posterior — Semana 2, Aula 3. Continue de onde parou.</p>
+              <p className="mt-2 max-w-sm text-sm opacity-90">Protocolo Posterior — continue de onde parou.</p>
               <Link to="/conteudo/$id" params={{ id: "protocolo-posterior" }}
                 className="mt-5 inline-flex w-fit items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground">
                 Continuar treino <ArrowUpRight className="h-4 w-4" />
@@ -68,7 +75,7 @@ function Index() {
               {WEEK.map((v, i) => (
                 <div key={i} className="flex flex-1 flex-col items-center gap-2">
                   <span className="text-xs font-medium text-primary">{v}%</span>
-                  <div className="flex h-28 w-full max-w-12 items-end"><div className={`w-full rounded-xl ${i === 4 ? "bg-primary" : "bg-muted"}`} style={{ height: `${v}%` }} /></div>
+                  <div className="flex h-28 w-full max-w-12 items-end"><div className={`w-full rounded-xl ${i === today ? "bg-primary" : "bg-muted"}`} style={{ height: `${v}%` }} /></div>
                   <span className="text-xs text-muted-foreground">{["S", "T", "Q", "Q", "S", "S", "D"][i]}</span>
                 </div>
               ))}
