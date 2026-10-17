@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FavoritosRouteImport } from './routes/favoritos'
+import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as ProgressoRouteImport } from './routes/progresso'
+import { Route as ReceitasRouteImport } from './routes/receitas'
+import { Route as TreinosRouteImport } from './routes/treinos'
+import { Route as ConteudoIdRouteImport } from './routes/conteudo.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FavoritosRoute = FavoritosRouteImport.update({
+  id: '/favoritos',
+  path: '/favoritos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PerfilRoute = PerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgressoRoute = ProgressoRouteImport.update({
+  id: '/progresso',
+  path: '/progresso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReceitasRoute = ReceitasRouteImport.update({
+  id: '/receitas',
+  path: '/receitas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TreinosRoute = TreinosRouteImport.update({
+  id: '/treinos',
+  path: '/treinos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConteudoIdRoute = ConteudoIdRouteImport.update({
+  id: '/conteudo/$id',
+  path: '/conteudo/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/favoritos': typeof FavoritosRoute
+  '/perfil': typeof PerfilRoute
+  '/progresso': typeof ProgressoRoute
+  '/receitas': typeof ReceitasRoute
+  '/treinos': typeof TreinosRoute
+  '/conteudo/$id': typeof ConteudoIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/favoritos': typeof FavoritosRoute
+  '/perfil': typeof PerfilRoute
+  '/progresso': typeof ProgressoRoute
+  '/receitas': typeof ReceitasRoute
+  '/treinos': typeof TreinosRoute
+  '/conteudo/$id': typeof ConteudoIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/favoritos': typeof FavoritosRoute
+  '/perfil': typeof PerfilRoute
+  '/progresso': typeof ProgressoRoute
+  '/receitas': typeof ReceitasRoute
+  '/treinos': typeof TreinosRoute
+  '/conteudo/$id': typeof ConteudoIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/favoritos'
+    | '/perfil'
+    | '/progresso'
+    | '/receitas'
+    | '/treinos'
+    | '/conteudo/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/favoritos'
+    | '/perfil'
+    | '/progresso'
+    | '/receitas'
+    | '/treinos'
+    | '/conteudo/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/favoritos'
+    | '/perfil'
+    | '/progresso'
+    | '/receitas'
+    | '/treinos'
+    | '/conteudo/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FavoritosRoute: typeof FavoritosRoute
+  PerfilRoute: typeof PerfilRoute
+  ProgressoRoute: typeof ProgressoRoute
+  ReceitasRoute: typeof ReceitasRoute
+  TreinosRoute: typeof TreinosRoute
+  ConteudoIdRoute: typeof ConteudoIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/favoritos': {
+      id: '/favoritos'
+      path: '/favoritos'
+      fullPath: '/favoritos'
+      preLoaderRoute: typeof FavoritosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/perfil': {
+      id: '/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof PerfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/progresso': {
+      id: '/progresso'
+      path: '/progresso'
+      fullPath: '/progresso'
+      preLoaderRoute: typeof ProgressoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/receitas': {
+      id: '/receitas'
+      path: '/receitas'
+      fullPath: '/receitas'
+      preLoaderRoute: typeof ReceitasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/treinos': {
+      id: '/treinos'
+      path: '/treinos'
+      fullPath: '/treinos'
+      preLoaderRoute: typeof TreinosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conteudo/$id': {
+      id: '/conteudo/$id'
+      path: '/conteudo/$id'
+      fullPath: '/conteudo/$id'
+      preLoaderRoute: typeof ConteudoIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FavoritosRoute: FavoritosRoute,
+  PerfilRoute: PerfilRoute,
+  ProgressoRoute: ProgressoRoute,
+  ReceitasRoute: ReceitasRoute,
+  TreinosRoute: TreinosRoute,
+  ConteudoIdRoute: ConteudoIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
