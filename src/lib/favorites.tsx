@@ -1,24 +1,18 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
+import { useFavoritesQuery, useToggleFavorite } from "@/lib/data";
 
-interface Ctx { favs: string[]; toggle: (id: string) => void; isFav: (id: string) => boolean }
-const FavCtx = createContext<Ctx | null>(null);
-
+/** Kept for compatibility with the original layout; favorites now live in the database. */
 export function FavoritesProvider({ children }: { children: ReactNode }) {
-  const [favs, setFavs] = useState<string[]>([]);
-  useEffect(() => {
-    try { setFavs(JSON.parse(localStorage.getItem("bn-favs") || "[]")); } catch { /* ignore */ }
-  }, []);
-  const toggle = (id: string) =>
-    setFavs((f) => {
-      const next = f.includes(id) ? f.filter((x) => x !== id) : [...f, id];
-      localStorage.setItem("bn-favs", JSON.stringify(next));
-      return next;
-    });
-  return <FavCtx.Provider value={{ favs, toggle, isFav: (id) => favs.includes(id) }}>{children}</FavCtx.Provider>;
+  return <>{children}</>;
 }
 
+/** Favorites keyed by content UUID. */
 export function useFavorites() {
-  const c = useContext(FavCtx);
-  if (!c) throw new Error("useFavorites outside provider");
-  return c;
+  const { data: favs = [] } = useFavoritesQuery();
+  const m = useToggleFavorite();
+  return {
+    favs,
+    isFav: (id: string) => favs.includes(id),
+    toggle: (id: string) => m.mutate({ contentId: id, on: !favs.includes(id) }),
+  };
 }
