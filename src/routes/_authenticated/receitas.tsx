@@ -4,7 +4,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { PRODUCTS, hasAccess } from "@/lib/content";
 import recipe from "@/assets/recipe.jpg";
 
-export const Route = createFileRoute("/receitas")({
+export const Route = createFileRoute("/_authenticated/receitas")({
   head: () => ({
     meta: [
       { title: "Receitas proteicas — Bumbum Net" },

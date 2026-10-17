@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { PRODUCTS, USER, hasAccess } from "@/lib/content";
 
-export const Route = createFileRoute("/progresso")({
+export const Route = createFileRoute("/_authenticated/progresso")({
   head: () => ({
     meta: [
       { title: "Meu progresso — Bumbum Net" },

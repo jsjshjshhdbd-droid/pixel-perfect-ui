@@ -5,7 +5,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { PRODUCTS } from "@/lib/content";
 import { useFavorites } from "@/lib/favorites";
 
-export const Route = createFileRoute("/favoritos")({
+export const Route = createFileRoute("/_authenticated/favoritos")({
   head: () => ({
     meta: [
       { title: "Favoritos — Bumbum Net" },

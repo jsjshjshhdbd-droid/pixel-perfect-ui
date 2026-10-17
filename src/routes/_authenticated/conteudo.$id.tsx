@@ -5,7 +5,7 @@ import { AppShell } from "@/components/AppShell";
 import { getProduct, hasAccess } from "@/lib/content";
 import { useFavorites } from "@/lib/favorites";
 
-export const Route = createFileRoute("/conteudo/$id")({
+export const Route = createFileRoute("/_authenticated/conteudo/$id")({
   loader: ({ params }) => {
     const p = getProduct(params.id);
     if (!p) throw notFound();

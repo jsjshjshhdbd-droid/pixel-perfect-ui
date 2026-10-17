@@ -9,180 +9,180 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as FavoritosRouteImport } from './routes/favoritos'
-import { Route as PerfilRouteImport } from './routes/perfil'
-import { Route as ProgressoRouteImport } from './routes/progresso'
-import { Route as ReceitasRouteImport } from './routes/receitas'
-import { Route as TreinosRouteImport } from './routes/treinos'
-import { Route as ConteudoIdRouteImport } from './routes/conteudo.$id'
+import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedFavoritosRouteImport } from './routes/_authenticated/favoritos'
+import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
+import { Route as AuthenticatedProgressoRouteImport } from './routes/_authenticated/progresso'
+import { Route as AuthenticatedReceitasRouteImport } from './routes/_authenticated/receitas'
+import { Route as AuthenticatedTreinosRouteImport } from './routes/_authenticated/treinos'
+import { Route as AuthenticatedConteudoIdRouteImport } from './routes/_authenticated/conteudo.$id'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
+const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
+  id: '/_authenticated/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const FavoritosRoute = FavoritosRouteImport.update({
-  id: '/favoritos',
+const AuthenticatedFavoritosRoute = AuthenticatedFavoritosRouteImport.update({
+  id: '/_authenticated/favoritos',
   path: '/favoritos',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PerfilRoute = PerfilRouteImport.update({
-  id: '/perfil',
+const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
+  id: '/_authenticated/perfil',
   path: '/perfil',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProgressoRoute = ProgressoRouteImport.update({
-  id: '/progresso',
+const AuthenticatedProgressoRoute = AuthenticatedProgressoRouteImport.update({
+  id: '/_authenticated/progresso',
   path: '/progresso',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReceitasRoute = ReceitasRouteImport.update({
-  id: '/receitas',
+const AuthenticatedReceitasRoute = AuthenticatedReceitasRouteImport.update({
+  id: '/_authenticated/receitas',
   path: '/receitas',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TreinosRoute = TreinosRouteImport.update({
-  id: '/treinos',
+const AuthenticatedTreinosRoute = AuthenticatedTreinosRouteImport.update({
+  id: '/_authenticated/treinos',
   path: '/treinos',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ConteudoIdRoute = ConteudoIdRouteImport.update({
-  id: '/conteudo/$id',
+const AuthenticatedConteudoIdRoute = AuthenticatedConteudoIdRouteImport.update({
+  id: '/_authenticated/conteudo/$id',
   path: '/conteudo/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/favoritos': typeof FavoritosRoute
-  '/perfil': typeof PerfilRoute
-  '/progresso': typeof ProgressoRoute
-  '/receitas': typeof ReceitasRoute
-  '/treinos': typeof TreinosRoute
-  '/conteudo/$id': typeof ConteudoIdRoute
+  '/favoritos': typeof AuthenticatedFavoritosRoute
+  '/perfil': typeof AuthenticatedPerfilRoute
+  '/progresso': typeof AuthenticatedProgressoRoute
+  '/receitas': typeof AuthenticatedReceitasRoute
+  '/treinos': typeof AuthenticatedTreinosRoute
+  '/': typeof AuthenticatedIndexRoute
+  '/conteudo/$id': typeof AuthenticatedConteudoIdRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/favoritos': typeof FavoritosRoute
-  '/perfil': typeof PerfilRoute
-  '/progresso': typeof ProgressoRoute
-  '/receitas': typeof ReceitasRoute
-  '/treinos': typeof TreinosRoute
-  '/conteudo/$id': typeof ConteudoIdRoute
+  '/favoritos': typeof AuthenticatedFavoritosRoute
+  '/perfil': typeof AuthenticatedPerfilRoute
+  '/progresso': typeof AuthenticatedProgressoRoute
+  '/receitas': typeof AuthenticatedReceitasRoute
+  '/treinos': typeof AuthenticatedTreinosRoute
+  '/': typeof AuthenticatedIndexRoute
+  '/conteudo/$id': typeof AuthenticatedConteudoIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/favoritos': typeof FavoritosRoute
-  '/perfil': typeof PerfilRoute
-  '/progresso': typeof ProgressoRoute
-  '/receitas': typeof ReceitasRoute
-  '/treinos': typeof TreinosRoute
-  '/conteudo/$id': typeof ConteudoIdRoute
+  '/_authenticated/favoritos': typeof AuthenticatedFavoritosRoute
+  '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
+  '/_authenticated/progresso': typeof AuthenticatedProgressoRoute
+  '/_authenticated/receitas': typeof AuthenticatedReceitasRoute
+  '/_authenticated/treinos': typeof AuthenticatedTreinosRoute
+  '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/conteudo/$id': typeof AuthenticatedConteudoIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/favoritos'
     | '/perfil'
     | '/progresso'
     | '/receitas'
     | '/treinos'
+    | '/'
     | '/conteudo/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/favoritos'
     | '/perfil'
     | '/progresso'
     | '/receitas'
     | '/treinos'
+    | '/'
     | '/conteudo/$id'
   id:
     | '__root__'
-    | '/'
-    | '/favoritos'
-    | '/perfil'
-    | '/progresso'
-    | '/receitas'
-    | '/treinos'
-    | '/conteudo/$id'
+    | '/_authenticated/favoritos'
+    | '/_authenticated/perfil'
+    | '/_authenticated/progresso'
+    | '/_authenticated/receitas'
+    | '/_authenticated/treinos'
+    | '/_authenticated/'
+    | '/_authenticated/conteudo/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  FavoritosRoute: typeof FavoritosRoute
-  PerfilRoute: typeof PerfilRoute
-  ProgressoRoute: typeof ProgressoRoute
-  ReceitasRoute: typeof ReceitasRoute
-  TreinosRoute: typeof TreinosRoute
-  ConteudoIdRoute: typeof ConteudoIdRoute
+  AuthenticatedFavoritosRoute: typeof AuthenticatedFavoritosRoute
+  AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
+  AuthenticatedProgressoRoute: typeof AuthenticatedProgressoRoute
+  AuthenticatedReceitasRoute: typeof AuthenticatedReceitasRoute
+  AuthenticatedTreinosRoute: typeof AuthenticatedTreinosRoute
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedConteudoIdRoute: typeof AuthenticatedConteudoIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_authenticated/': {
+      id: '/_authenticated/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/favoritos': {
-      id: '/favoritos'
+    '/_authenticated/favoritos': {
+      id: '/_authenticated/favoritos'
       path: '/favoritos'
       fullPath: '/favoritos'
-      preLoaderRoute: typeof FavoritosRouteImport
+      preLoaderRoute: typeof AuthenticatedFavoritosRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/perfil': {
-      id: '/perfil'
+    '/_authenticated/perfil': {
+      id: '/_authenticated/perfil'
       path: '/perfil'
       fullPath: '/perfil'
-      preLoaderRoute: typeof PerfilRouteImport
+      preLoaderRoute: typeof AuthenticatedPerfilRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/progresso': {
-      id: '/progresso'
+    '/_authenticated/progresso': {
+      id: '/_authenticated/progresso'
       path: '/progresso'
       fullPath: '/progresso'
-      preLoaderRoute: typeof ProgressoRouteImport
+      preLoaderRoute: typeof AuthenticatedProgressoRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/receitas': {
-      id: '/receitas'
+    '/_authenticated/receitas': {
+      id: '/_authenticated/receitas'
       path: '/receitas'
       fullPath: '/receitas'
-      preLoaderRoute: typeof ReceitasRouteImport
+      preLoaderRoute: typeof AuthenticatedReceitasRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/treinos': {
-      id: '/treinos'
+    '/_authenticated/treinos': {
+      id: '/_authenticated/treinos'
       path: '/treinos'
       fullPath: '/treinos'
-      preLoaderRoute: typeof TreinosRouteImport
+      preLoaderRoute: typeof AuthenticatedTreinosRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/conteudo/$id': {
-      id: '/conteudo/$id'
+    '/_authenticated/conteudo/$id': {
+      id: '/_authenticated/conteudo/$id'
       path: '/conteudo/$id'
       fullPath: '/conteudo/$id'
-      preLoaderRoute: typeof ConteudoIdRouteImport
+      preLoaderRoute: typeof AuthenticatedConteudoIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  FavoritosRoute: FavoritosRoute,
-  PerfilRoute: PerfilRoute,
-  ProgressoRoute: ProgressoRoute,
-  ReceitasRoute: ReceitasRoute,
-  TreinosRoute: TreinosRoute,
-  ConteudoIdRoute: ConteudoIdRoute,
+  AuthenticatedFavoritosRoute: AuthenticatedFavoritosRoute,
+  AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
+  AuthenticatedProgressoRoute: AuthenticatedProgressoRoute,
+  AuthenticatedReceitasRoute: AuthenticatedReceitasRoute,
+  AuthenticatedTreinosRoute: AuthenticatedTreinosRoute,
+  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedConteudoIdRoute: AuthenticatedConteudoIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

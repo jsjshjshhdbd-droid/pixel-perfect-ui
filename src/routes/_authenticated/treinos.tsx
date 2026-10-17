@@ -4,7 +4,7 @@ import { AppShell } from "@/components/AppShell";
 import { ProductCard } from "@/components/ProductCard";
 import { PRODUCTS, hasAccess } from "@/lib/content";
 
-export const Route = createFileRoute("/treinos")({
+export const Route = createFileRoute("/_authenticated/treinos")({
   head: () => ({
     meta: [
       { title: "Biblioteca de treinos — Bumbum Net" },

@@ -6,7 +6,7 @@ import { PRODUCTS, USER, hasAccess } from "@/lib/content";
 import heroGym from "@/assets/hero-gym.jpg";
 import athlete from "@/assets/athlete.png";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_authenticated/")({
   head: () => ({
     meta: [
       { title: "Início — Bumbum Net" },

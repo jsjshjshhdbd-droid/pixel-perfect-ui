@@ -1,7 +1,9 @@
-import { Link } from "@tanstack/react-router";
-import { LayoutGrid, Dumbbell, Salad, TrendingUp, Heart, User, LogOut, Bell, Search } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import { LayoutGrid, Dumbbell, Salad, TrendingUp, Heart, User, LogOut, Bell, Search, Shield } from "lucide-react";
 import type { ReactNode } from "react";
-import { USER } from "@/lib/content";
+import { supabase } from "@/integrations/supabase/client";
+import { useMe } from "@/lib/data";
 
 const NAV = [
   { to: "/", label: "Início", icon: LayoutGrid },
@@ -12,7 +14,21 @@ const NAV = [
   { to: "/perfil", label: "Perfil", icon: User },
 ] as const;
 
+export function useSignOut() {
+  const qc = useQueryClient();
+  const navigate = useNavigate();
+  return async () => {
+    await qc.cancelQueries();
+    qc.clear();
+    await supabase.auth.signOut();
+    navigate({ to: "/auth", replace: true });
+  };
+}
+
 export function AppShell({ title, subtitle, children }: { title: string; subtitle?: string; children: ReactNode }) {
+  const { data: me } = useMe();
+  const signOut = useSignOut();
+  const name = me?.profile?.full_name || me?.email || "";
   return (
     <div className="min-h-screen lg:flex">
       <aside className="hidden lg:flex w-64 shrink-0 flex-col bg-sidebar px-6 py-8 sticky top-0 h-screen">
@@ -25,8 +41,13 @@ export function AppShell({ title, subtitle, children }: { title: string; subtitl
               <Icon className="h-5 w-5" />{label}
             </Link>
           ))}
+          {me?.isAdmin && (
+            <Link to="/admin" className="mt-4 flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-primary hover:bg-accent">
+              <Shield className="h-5 w-5" />Painel ADM
+            </Link>
+          )}
         </nav>
-        <button className="mt-auto flex items-center gap-3 px-3 py-3 text-sm font-medium text-muted-foreground hover:text-foreground">
+        <button onClick={signOut} className="mt-auto flex items-center gap-3 px-3 py-3 text-sm font-medium text-muted-foreground hover:text-foreground">
           <LogOut className="h-5 w-5" />Sair
         </button>
       </aside>
@@ -44,10 +65,13 @@ export function AppShell({ title, subtitle, children }: { title: string; subtitl
             </label>
             <button aria-label="Notificações" className="relative grid h-10 w-10 place-items-center rounded-full bg-primary-soft">
               <Bell className="h-5 w-5" />
-              <span className="absolute -right-0.5 -top-0.5 grid h-4 w-4 place-items-center rounded-full bg-primary text-[10px] text-primary-foreground">2</span>
             </button>
-            <Link to="/perfil" className="grid h-10 w-10 place-items-center rounded-full bg-gradient-pink font-semibold text-primary-foreground">
-              {USER.name[0]}
+            {me?.isAdmin && (
+              <Link to="/admin" aria-label="Painel ADM" className="grid h-10 w-10 place-items-center rounded-full bg-primary-soft lg:hidden"><Shield className="h-5 w-5" /></Link>
+            )}
+            <button onClick={signOut} aria-label="Sair" className="grid h-10 w-10 place-items-center rounded-full bg-primary-soft lg:hidden"><LogOut className="h-5 w-5" /></button>
+            <Link to="/perfil" className="grid h-10 w-10 place-items-center rounded-full bg-gradient-pink font-semibold uppercase text-primary-foreground">
+              {name[0] ?? "?"}
             </Link>
           </div>
         </header>
